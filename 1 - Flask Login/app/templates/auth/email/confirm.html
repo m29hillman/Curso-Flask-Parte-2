@@ -1,0 +1,17 @@
+<p>Olá {{ user.username }},</p>
+
+<p>Seja bem-vindo à aplicação!</p>
+
+<p>Para confirmar sua conta, <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">clique aqui</a>.</p>
+
+<p>Alternativamente, você pode copiar e colar o seguinte link na barra de endereços do seu navegador:</p>
+
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+
+<p>Se você não criou uma conta, por favor ignore esta mensagem.</p>
+
+<p>Atenciosamente,</p>
+
+<p>Marcelo Mazzochi Hillman</p>
+
+<small><p>Nota: esta conta de e-mail não é monitorada. Por favor, não responda a esta mensagem.</p></small>

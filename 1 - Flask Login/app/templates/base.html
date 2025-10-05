@@ -1,0 +1,114 @@
+{% extends "bootstrap/base.html" %}
+<!-- Esta linha é o ponto central da integração com o Flask-Bootstrap. -->
+<!-- Ela instrui o Jinja2 a herdar de um template base ('base.html') fornecido pela extensão. -->
+<!-- Este template base já inclui todo o CSS e JavaScript do Bootstrap, além de definir blocos que podemos sobrescrever. -->
+
+{% block scripts %}
+    <!-- O bloco 'scripts' é definido pelo template base do Bootstrap, geralmente no final do <body>. -->
+    <!-- Sobrescrevê-lo nos permite adicionar nossos próprios scripts JavaScript. -->
+
+    <!-- 'super()' renderiza o conteúdo original do bloco 'scripts' do template pai. -->
+    <!-- Isso é VITAL para incluir os scripts do jQuery e do Bootstrap, que são necessários para os componentes interativos. -->
+    {{ super() }}
+
+    <!-- Esta função, fornecida pelo Flask-Moment, injeta a biblioteca moment.js na página. -->
+    <!-- Moment.js é uma poderosa biblioteca JavaScript para analisar, validar, manipular e exibir datas e horas. -->
+    {{ moment.include_moment() }}
+
+    <!-- Esta função define o idioma (locale) para o moment.js. -->
+    <!-- Ao definir como 'pt' (português), garantimos que as datas e horas relativas (como "há 5 minutos") sejam exibidas no idioma correto. -->
+    {{ moment.locale('pt') }}
+
+    <script>
+        // Este script é executado assim que a página termina de carregar.
+        $(document).ready(function() {
+            // A função setTimeout agenda a execução de outra função após um intervalo de tempo.
+            setTimeout(function() {
+                // Seleciona todos os elementos com a classe '.alert' (nossas mensagens flash)
+                // e aplica o efeito .fadeOut() do jQuery para fazê-los desaparecer suavemente.
+                $('.alert').fadeOut('slow');
+            }, 5000); // O tempo é em milissegundos: 10000ms = 10 segundos.
+        });
+    </script>
+
+
+{% endblock %}
+
+{% block head %} 
+    <!-- 'super()' é uma função especial do Jinja2. -->
+    <!-- Ela renderiza o conteúdo original do bloco 'head' do template pai ('bootstrap/base.html'). -->
+    <!-- Isso é ESSENCIAL para garantir que os arquivos CSS e JS do Bootstrap sejam carregados. -->
+    {{ super() }} 
+
+    <!-- A linha abaixo adiciona um 'favicon' (o ícone que aparece na aba do navegador). -->
+    <!-- 'url_for('static', ...)' é a função do Flask para gerar o URL correto para arquivos na pasta 'static'. -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+{% endblock %}
+
+{% block title %}Flasky{% endblock %}
+<!-- 'title' é um dos blocos definidos em 'bootstrap/base.html'. -->
+<!-- O conteúdo que colocamos aqui será inserido na tag <title> do HTML final. -->
+
+{% block navbar %}
+<!-- 'navbar' é outro bloco do template base do Flask-Bootstrap. -->
+<!-- Podemos preenchê-lo com a estrutura de uma barra de navegação Bootstrap, como feito abaixo. -->
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Flasky</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <!-- Dropdown no canto direito do navbar -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Configurações <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ url_for('main.user', id=current_user.id) }}">Perfil</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
+                </ul>
+                </li>
+                {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{# 'content' é um bloco principal definido pelo Flask-Bootstrap, destinado ao conteúdo da página. #}
+{# Ao sobrescrevê-lo, podemos controlar o layout principal do corpo da página. #}
+<div class="container">
+    {# Este é o local padrão para renderizar mensagens "flash". #}
+    {# 'get_flashed_messages()' é uma função do Flask que retorna as mensagens que foram adicionadas #}
+    {# na view com a função 'flash()'. Isso é útil para notificações (ex: "Formulário enviado com sucesso!"). #}
+    {% for message in get_flashed_messages() %} 
+    {# Para cada mensagem, um alerta do Bootstrap é criado. #}
+    <div class="alert alert-warning">
+        {# Este botão permite que o usuário feche o alerta. 'data-dismiss="alert"' é um atributo do JavaScript do Bootstrap. #}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {# Exibe o texto da mensagem flash. #}
+        {{ message }} 
+    </div>
+    {% endfor %}
+
+    {# Este é um bloco aninhado. É uma convenção útil. #}
+    {# Os templates filhos (como index.html) irão preencher este bloco 'page_content' #}
+    {# em vez de sobrescrever o bloco 'content' inteiro. Isso mantém a lógica de mensagens flash #}
+    {# e o <div class="container"> em um só lugar, evitando repetição de código. #}
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}

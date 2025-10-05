@@ -1,0 +1,37 @@
+{# Esta diretiva instrui o Jinja2 a herdar do template 'base.html'. #}
+{# Isso significa que todo o HTML, blocos e configurações de 'base.html' são carregados primeiro. #}
+{% extends "base.html" %}
+
+{# Importa as macros do Flask-Bootstrap para renderização de formulários. #}
+{# "bootstrap/wtf.html" é um arquivo de template fornecido pela extensão Flask-Bootstrap que contém helpers. #}
+{# 'as wtf' cria um alias (apelido) para que possamos chamar as macros de forma mais curta (ex: wtf.quick_form). #}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{# 'page_content' é um bloco provavelmente definido em 'base.html' (ou em um de seus pais, como o template do Flask-Bootstrap). #}
+{# O conteúdo definido aqui substituirá o bloco 'page_content' original do template pai. #}
+{% block page_content %}
+<div class="container">
+    <div class="page-header">
+        <!-- <h1> define o cabeçalho mais importante. É bom para SEO e estrutura do documento. -->
+        <h1>Ola, {% if current_user.is_authenticated %}{{ current_user.name }}{% else %}estranho...{% endif %}!</h1>
+    </div>
+
+    {# Esta é a macro principal do Flask-Bootstrap para renderizar formulários. #}
+    {# 'quick_form()' recebe um objeto de formulário do Flask-WTF (a variável 'form' que passamos na view) #}
+    {# e renderiza todos os seus campos, labels, e mensagens de erro com a estilização padrão do Bootstrap. #}
+    {# É uma maneira extremamente rápida de criar formulários bonitos e funcionais. #}
+    {{ wtf.quick_form(form) }}
+
+    <div class="page-header" style="margin-top: 20px;">
+        <!-- Aqui usamos o Flask-Moment para renderizar a data/hora passada pela view. -->
+        <!-- 'current_time' é o objeto datetime que passamos em app.py. -->
+        <!-- 'moment()' o envolve, permitindo que a biblioteca moment.js o manipule no navegador. -->
+        <!-- .format('LLL') formata a data para um formato longo e localizado (ex: "15 de setembro de 2023 10:30"). -->
+        <p>A data e hora local são: {{ moment(current_time).format('LLL') }}.</p>
+        <!-- .fromNow(refresh=True) é o recurso mais dinâmico do Flask-Moment. -->
+        <!-- Ele exibe o tempo de forma relativa (ex: "há alguns segundos"). -->
+        <!-- O 'refresh=True' faz com que este texto se atualize automaticamente a cada minuto, sem recarregar a página. -->
+        <p>Isso foi atualizado {{ moment(current_time).fromNow(refresh=True) }}</p>
+    </div>
+</div>
+{% endblock %}

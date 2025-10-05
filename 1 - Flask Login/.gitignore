@@ -1,0 +1,102 @@
+Abort
+*.sqlite
+
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Django, Flask, Scrapy, and other frameworks
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+# Flask stuff:
+instance/
+.webassets-cache
+# Scrapy stuff:
+.scrapy
+
+# Documentation and builders
+docs/_build/
+target/
+
+# Jupyter, IPython, and other development tools
+.ipynb_checkpoints
+profile_default/
+ipython_config.py
+.python-version
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# OS-specific files and global ignores
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.swp
+.swo
+*.mp4
+*.mp3
+*.flac
+*.wav
+*.zip
+*.tar.gz
+*.data
+.env
+*.tmp
+*.bak
+*.swp
+*.old
+*.save
+*.log   
