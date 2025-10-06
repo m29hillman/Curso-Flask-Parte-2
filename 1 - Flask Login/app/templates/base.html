@@ -1,33 +1,18 @@
 {% extends "bootstrap/base.html" %}
-<!-- Esta linha é o ponto central da integração com o Flask-Bootstrap. -->
-<!-- Ela instrui o Jinja2 a herdar de um template base ('base.html') fornecido pela extensão. -->
-<!-- Este template base já inclui todo o CSS e JavaScript do Bootstrap, além de definir blocos que podemos sobrescrever. -->
 
 {% block scripts %}
-    <!-- O bloco 'scripts' é definido pelo template base do Bootstrap, geralmente no final do <body>. -->
-    <!-- Sobrescrevê-lo nos permite adicionar nossos próprios scripts JavaScript. -->
 
-    <!-- 'super()' renderiza o conteúdo original do bloco 'scripts' do template pai. -->
-    <!-- Isso é VITAL para incluir os scripts do jQuery e do Bootstrap, que são necessários para os componentes interativos. -->
     {{ super() }}
 
-    <!-- Esta função, fornecida pelo Flask-Moment, injeta a biblioteca moment.js na página. -->
-    <!-- Moment.js é uma poderosa biblioteca JavaScript para analisar, validar, manipular e exibir datas e horas. -->
     {{ moment.include_moment() }}
 
-    <!-- Esta função define o idioma (locale) para o moment.js. -->
-    <!-- Ao definir como 'pt' (português), garantimos que as datas e horas relativas (como "há 5 minutos") sejam exibidas no idioma correto. -->
     {{ moment.locale('pt') }}
 
     <script>
-        // Este script é executado assim que a página termina de carregar.
         $(document).ready(function() {
-            // A função setTimeout agenda a execução de outra função após um intervalo de tempo.
             setTimeout(function() {
-                // Seleciona todos os elementos com a classe '.alert' (nossas mensagens flash)
-                // e aplica o efeito .fadeOut() do jQuery para fazê-los desaparecer suavemente.
                 $('.alert').fadeOut('slow');
-            }, 5000); // O tempo é em milissegundos: 10000ms = 10 segundos.
+            }, 5000); 
         });
     </script>
 
@@ -35,23 +20,13 @@
 {% endblock %}
 
 {% block head %} 
-    <!-- 'super()' é uma função especial do Jinja2. -->
-    <!-- Ela renderiza o conteúdo original do bloco 'head' do template pai ('bootstrap/base.html'). -->
-    <!-- Isso é ESSENCIAL para garantir que os arquivos CSS e JS do Bootstrap sejam carregados. -->
     {{ super() }} 
-
-    <!-- A linha abaixo adiciona um 'favicon' (o ícone que aparece na aba do navegador). -->
-    <!-- 'url_for('static', ...)' é a função do Flask para gerar o URL correto para arquivos na pasta 'static'. -->
     <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
 {% endblock %}
 
 {% block title %}Flasky{% endblock %}
-<!-- 'title' é um dos blocos definidos em 'bootstrap/base.html'. -->
-<!-- O conteúdo que colocamos aqui será inserido na tag <title> do HTML final. -->
 
 {% block navbar %}
-<!-- 'navbar' é outro bloco do template base do Flask-Bootstrap. -->
-<!-- Podemos preenchê-lo com a estrutura de uma barra de navegação Bootstrap, como feito abaixo. -->
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -69,7 +44,6 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
-                <!-- Dropdown no canto direito do navbar -->
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Configurações <b class="caret"></b>

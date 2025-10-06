@@ -12,7 +12,6 @@
 {% block page_content %}
 <div class="container">
     <div class="page-header">
-        <!-- <h1> define o cabeçalho mais importante. É bom para SEO e estrutura do documento. -->
         <h1>Ola, {% if current_user.is_authenticated %}{{ current_user.name }}{% else %}estranho...{% endif %}!</h1>
     </div>
 
@@ -23,14 +22,7 @@
     {{ wtf.quick_form(form) }}
 
     <div class="page-header" style="margin-top: 20px;">
-        <!-- Aqui usamos o Flask-Moment para renderizar a data/hora passada pela view. -->
-        <!-- 'current_time' é o objeto datetime que passamos em app.py. -->
-        <!-- 'moment()' o envolve, permitindo que a biblioteca moment.js o manipule no navegador. -->
-        <!-- .format('LLL') formata a data para um formato longo e localizado (ex: "15 de setembro de 2023 10:30"). -->
         <p>A data e hora local são: {{ moment(current_time).format('LLL') }}.</p>
-        <!-- .fromNow(refresh=True) é o recurso mais dinâmico do Flask-Moment. -->
-        <!-- Ele exibe o tempo de forma relativa (ex: "há alguns segundos"). -->
-        <!-- O 'refresh=True' faz com que este texto se atualize automaticamente a cada minuto, sem recarregar a página. -->
         <p>Isso foi atualizado {{ moment(current_time).fromNow(refresh=True) }}</p>
     </div>
 </div>
